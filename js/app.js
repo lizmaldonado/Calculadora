@@ -1,4 +1,4 @@
-
+  
   var cuatro = document.getElementById('4');
   var cinco = document.getElementById('5');
   var seis = document.getElementById('6');
@@ -35,7 +35,7 @@ seis.addEventListener("mousedown",function(x) {seis.style = "padding:10px";})
       cifra2=resultado;
       bandera=1;
       decimal=0; //ya puede volver a escribir un "."
-
+      signo="+";
       resolver(cifra1,cifra2);
     }),
   mas.addEventListener("mouseup",function(x)
@@ -97,20 +97,25 @@ seis.addEventListener("mousedown",function(x) {seis.style = "padding:10px";})
           }
       }),
       sign.addEventListener("mouseup",function(x)
-        {
-          x=document.getElementById('punto').getAttribute("id")
+        { var cadena=""
+          x=document.getElementById('sign').getAttribute("id")
           sign.style = "padding:0px";
           if (signo=="+")
-              {x="-"}
-          else {x="+";}
-          signo=x;
-
-          resultado=resultado+x;   ///el signo se anexa en primera posicion.
+              {
+                x="-";
+                resultado=x+resultado;
                 contador=contador+1;
-
                 imprime(x)
-
-            
+              }
+          else
+           {
+             x="+";
+             contador=contador-1;
+             cadena=resultado.substring(1);
+             resultado=cadena;
+             imprime(resultado);    //imprime la cadena pero sin el signo.
+           }
+          signo=x;
         }),
 
   cuatro.addEventListener("mouseup",function(x)
@@ -161,6 +166,7 @@ function limpiardisplay()
     document.getElementById("demo").innerHTML = mensaje;
     contador=0;
     decimal=0;
+    signo="+";
   }
 
 function resolver()
