@@ -2,19 +2,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-  
+    <link rel="stylesheet" href="css/estilos.css">  -->
     <title>Calculadora</title>
 <style>
-#display
-{
-  width: 324px;
-  height: 92px;
-  background-color: beige;
-  border: 2px solid black;
-  font-family: digital;
-  font-size: 5em;
-  text-align: right;
-}
+    #display
+    {
+      font-family: digital;
+      font-size: 5em;
+    }
+    .pantalla{
+      width: 344px;
+      height: 102px;
+      background-image: url("image/fondoCalc.png");
+      background-repeat: repeat;
+      text-align: right;
+      margin-top: 39px;
+    }
 </style>
   </head>
 
@@ -24,28 +27,44 @@
   <body>
 
     <h1>Hello World</h1>
-    <div class="pantalla">
-      <span id="display">0</span>
-    </div>
+    <div id="calculadoraFondo">
+      <div class="pantalla">
+        <span id="display">0</span>
+      </div>
 
-    <p>clickea una imagen.</p>
-    <div id="teclado">
-      <img src="../RetoCalculadora/image/4.png" alt="4" class="tecla" id="4"/>
-      <img src="../RetoCalculadora/image/5.png" alt="5" class="tecla" id="5"/>
-      <img src="../RetoCalculadora/image/6.png" alt="6" class="tecla" id="6"/>
-      <img src="../RetoCalculadora/image/mas.png" alt="mas" class="tecla suma" id="mas"/>
 
-      <img src="../RetoCalculadora/image/dividido.png" alt="dividid" class="tecla divide" id="dividido"/>
-      <img src="../RetoCalculadora/image/por.png" alt="por" class="tecla multiplica" id="por"/>
-      <img src="../RetoCalculadora/image/menos.png" alt="menos" class="tecla resta" id="menos"/>
-      <img src="../RetoCalculadora/image/punto.png" alt="punto" class="tecla" id="punto"/>
-      <img src="../RetoCalculadora/image/igual.png" alt="igual" class="tecla igual" id="igual"/>
-      <img src="../RetoCalculadora/image/sign.png" alt="signo" class="tecla" id="sign"/>
-    </div>
+      <div id="teclado">
+        <img src="image/ON.png" alt="On" class="tecla" id="on"/>
+        <img src="image/sign.png" alt="signo" class="tecla" id="sign"/>
+        <img src="image/raiz.png" alt="raiz" class="tecla" id="raiz"/>
+        <img src="image/dividido.png" alt="dividido" class="tecla divide" id="dividido"/>
+
+        <img src="image/por.png" alt="por" class="tecla multiplica" id="por"/>
+
+        <img src="image/4.png" alt="4" class="tecla" id="4"/>
+        <img src="image/5.png" alt="5" class="tecla" id="5"/>
+        <img src="image/6.png" alt="6" class="tecla" id="6"/>
+        <img src="image/menos.png" alt="menos" class="tecla resta" id="menos"/>
+
+        <div class="row">
+          <div class="col1">
+              <img src="image/0.png" alt="0" class="tecla" id="0"/>
+              <img src="image/punto.png" alt="punto" class="tecla" id="punto"/>
+              <img src="image/igual.png" alt="igual" class="tecla igual" id="igual"/>
+          </div>
+          <div class="col2">
+            <img src="image/mas.png" alt="mas" class="tecla suma" id="mas"/>
+          </div>
+        </div> <!--cierre del div de row del mas -->
+      </div>  <!--cierre del div teclado -->
+    </div>  <!--cierre del div calculadoraFondo -->
+
+
+
 
 
     <p id="demo"></p>
-</body>
+  </body>
 
 
 
