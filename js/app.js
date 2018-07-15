@@ -1,27 +1,23 @@
   
- var cifra1=0,  decimal=0, contador=0;
+var cifra1=0, cifra2=0;cifra3=0; decimal=0, contador=0;
 var resultado="";
 var operador="mas"; signo="+";
 var operador1=0;  //si o esta obteniendo la cifra1, si operador1=1 obtener cifra2
-var CeroIzq="false";
+var CeroIzq=0;  //con valor 1 indica que hay un cero a la izq sin valor
 var num1,num2;
+var Undc1=0;    //con valor de 1 el usuario no dio cifra1
 
 var on=document.getElementById('on');
 var sign=document.getElementById('sign');
-
 var entre=document.getElementById('dividido');
-
 var por=document.getElementById('por');
 var cuatro = document.getElementById('4');
 var cinco = document.getElementById('5');
 var seis = document.getElementById('6');
-
 var menos=document.getElementById('menos');
-
 var cero=document.getElementById('0');
 var punto=document.getElementById('punto');
 var igual=document.getElementById('igual');
-
 var mas=document.getElementById('mas');
 
 on.addEventListener("mousedown",function(x) {on.style = "padding:10px";}),
@@ -40,28 +36,33 @@ mas.addEventListener("mousedown",function(x) {mas.style = "padding:10px";}),
 on.addEventListener("mouseup",function(x)
     {
       on.style = "padding:0px";
-      cifra1=0;
-      resultado="";
-      operador="mas";
-      decimal=0;
-      operador1=0;
-      num1=0,num2=0;
-      CeroIzq=false;
-      limpiardisplay();
+      Resetear();
+      Limpiardisplay();
     }),
 
 igual.addEventListener("mouseup",function(x)
     {
       igual.style = "padding:0px";
-      cifra2=resultado;
-      if (cifra2=="")
-      {
-        cifra2=cifra1;
-      }
+
+      if (resultado!="")   //el usuario dio las dos cifras
+          {cifra2=resultado};
+
+      if(Undc1==1 && resultado=="")
+          {cifra2=cifra3; cifra1=cifra3 }        //el usuario tecleo +=
+
+      if(Undc1==0 && resultado=="")    //el usuario solo tecleo =
+            {
+              if (operador1==1 && cifra1!="")            //cuando paso por operador x=
+                   { cifra2=cifra1; }
+               else{ cifra1=cifra3; }
+            }
       decimal=0; //ya puede volver a escribir un "."
       signo="+";
-      resolver(cifra1,cifra2);
+      Resolver(cifra1,cifra2);
       contador=0;
+      CeroIzq=0;
+      Undc1=0;
+      operador1=0;
     }),
 
 mas.addEventListener("mouseup",function(x)
@@ -94,7 +95,7 @@ entre.addEventListener("mouseup",function(x)
 
   punto.addEventListener("mouseup",function(x)
       {
-        //x=document.getElementById('punto').getAttribute("id")
+
         punto.style = "padding:0px";
         x=".";
         if (contador<8)
@@ -107,7 +108,7 @@ entre.addEventListener("mouseup",function(x)
               resultado=resultado+x;
               contador=contador+1;
               decimal=1; //me indica que ya tiene un punto
-              imprime(resultado)
+              Imprime(resultado)
             }
           }
       }),
@@ -116,22 +117,27 @@ entre.addEventListener("mouseup",function(x)
         {
           var cadena=""
           sign.style = "padding:0px";
-          if (signo=="+")
-              {
-                x="-";
-                resultado=x+resultado;
-                contador=contador+1;
-                imprime(resultado)
-              }
-          else
+           if (contador>0)
            {
-             x="+";
-             contador=contador-1;
-             cadena=resultado.substring(1);
-             resultado=cadena;
-             imprime(resultado);    //imprime la cadena pero sin el signo.
-           }
-          signo=x;
+              if (signo=="+")
+                  {
+                    x="-";
+                    resultado=x+resultado;
+                    contador=contador+1;
+                    Imprime(resultado)
+                  }
+              else
+               {
+                 x="+";
+                 contador=contador-1;
+                 cadena=resultado.substring(1);
+                 resultado=cadena;
+                 Imprime(resultado);    //imprime la cadena pero sin el signo.
+               }
+              signo=x;
+            }
+            if (contador==0)
+            Limpiardisplay();
         }),
 
   cuatro.addEventListener("mouseup",function(x)
@@ -149,7 +155,7 @@ entre.addEventListener("mouseup",function(x)
         {
           resultado=resultado+x;
           contador=contador+1;
-          imprime(resultado)
+          Imprime(resultado)
         }
       }),
       seis.addEventListener("mouseup",function(x)
@@ -161,25 +167,29 @@ entre.addEventListener("mouseup",function(x)
           {
             resultado=resultado+x;
             contador=contador+1;
-            imprime(resultado)
+            Imprime(resultado)
           }
         }),
     cero.addEventListener("mouseup",function(x)
       {
         cero.style = "padding:0px";
         x=document.getElementById('0').getAttribute("id");
-         if (contador==0)  //cero al principio
+         if (contador>0)  //quiere decir que no es cero al principio
          {
-          CeroIzq="true";
-         }
            CDisplay(x);
+          }
+          else
+          {
+            CeroIzq=1;
+            Limpiardisplay();
+          }
       })
 
 
 
 
 
-function limpiardisplay()
+function Limpiardisplay()
   {
     document.getElementById("display").innerHTML = "0";
     var mensaje ="cifra1: "+ String(cifra1)+" operador :"+operador;
@@ -189,7 +199,7 @@ function limpiardisplay()
     signo="+";
   }  //termina funcion limpiardisplay
 
-function resolver()
+function Resolver()
   {
     var res = 0;
     CdnaInt();
@@ -208,7 +218,7 @@ function resolver()
   	        break;
 
        case "entre":
-            if (num2!==0)
+            if (num2!==0 && CeroIzq!=1)
             {
               res = (num1) / (num2);
             }
@@ -217,11 +227,11 @@ function resolver()
             break;
 
   	}
-    cifra1=res;   //esto es para el caso de que usuario no meta cifra1
-    truncar(res)
+    cifra3=res;   //esto es para el caso de que usuario no meta cifra1
+    Truncar(res)
 
-    imprime(resultado)
-    CeroIzq="false"
+    Imprime(resultado)
+
     resultado="";
 	}  //termina funcion resolver
 
@@ -231,7 +241,7 @@ function CdnaInt()
     num2=parseFloat(cifra2)
   }
 
-function truncar(res)
+function Truncar(res)
   {
     var res1 ="", cortado="";
     res1=String(res);
@@ -243,20 +253,9 @@ function truncar(res)
     resultado=res;
   } //termina funcion truncar
 
-function imprime(resultado)
+function Imprime(resultado)
     {
-      var temp=0;
-      if (CeroIzq=="true" && contador==2)
-      {
-      temp=resultado.substring(1);
-      contador=contador-1;
-      resultado=temp;
-      }
       document.getElementById("display").innerHTML = resultado;
-      if (temp!==0 && contador==1)
-         {
-           CeroIzq="false"
-         }
     }
 
 function CDisplay(x)
@@ -265,17 +264,31 @@ function CDisplay(x)
     {
       resultado=resultado+x;
       contador=contador+1;
-      imprime(resultado)
+      Imprime(resultado)
     }
 } //termina funcion CDisplay
 function PrepLim()
 {
-  if (resultado=="")  //usuario no dio cifra1
+  if (resultado=="")
    {
     resultado=cifra1;
+    Undc1=1;            //usuario no dio cifra1
   }
   cifra1=resultado;
   resultado="";
   operador1=1;
-  limpiardisplay();
+  Limpiardisplay();
+  document.getElementById("display").innerHTML = "";
+}
+function Resetear()
+{
+  cifra1=0;cifra2=0;contador=0;
+  resultado="";
+  operador="mas";signo="+";
+  decimal=0;
+  operador1=0;
+  num1=0,num2=0;
+  CeroIzq=0;
+  operador1=0;
+   Undc1=0;
 }
